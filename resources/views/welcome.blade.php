@@ -13,27 +13,37 @@
 @endif
 <div id="search-container" class="col-12-md-12">
     <h1>Buscar</h1>
-    <form action="">
+    <form action="/" method="GET">
         <input type="text" id="search" name="search" class ="form-control" placeholder="Procurar">
 
     </form>
 </div>
 
 <div id="events-container" class="col-md-12">
-    <h2>Proximos Eventos</h2>
-    <p class="subtitle">Veja os eventos dos proximos dias</p>
+    @if($search)
+    <h2>Buscando por:{{$search}}</h2>
+    <a href="/">Ver todos</a>
+    @else
+        <h2>Proximos Eventos</h2>
+        <p class="subtitle">Veja os eventos dos proximos dias</p>
+    @endif
     <div id="cards-container" class="row">
-        @foreach ($teste as $item)
+        @foreach ($cursos as $item)
             <div class="card col-md-3">
-                <img src="/img/eventos.jpeg" alt="{{$item->title}}">
+                <img src="/img/events/{{$item->image}}" alt="{{$item->title}}">
                 <div class="card-body">
-                    <p class="card-date">10/04/2022</p>
+                    <p class="card-date">{{date('d/m/y', strtotime($item->date))}}</p>
                     <h5 class="card-title">{{$item->title}}</h5>
                     <p class="card-participants"> x participantes</p>
-                    <a href="#" class="btn btn-primary"> Sabe mais</a>
+                    <a href="/events/{{$item->id}}" class="btn btn-primary"> Sabe mais</a>
                 </div>
             </div>
         @endforeach
+        @if($search && count($cursos) == 0)
+            <p>Nenhum evento com nome "{{$search}}" encontrado! <a href="/">Ver todos</a></p>
+        @elseif(count($cursos) == 0)
+            <p>Nenhum evento disponivel.</p>
+        @endif
     </div>
 </div>
 

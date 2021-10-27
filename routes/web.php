@@ -13,6 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', "CursoController@index");
-Route::get('/create', "CursoController@create");
-Route::post('/create/event', 'CursoController@store');
+Auth::routes();
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/', "CursoController@index");
+    Route::get('/create', "CursoController@create");
+    Route::post('/create/event', 'CursoController@store');
+    Route::get('/events/{id}', "CursoController@show");
+    Route::get('/home', 'HomeController@index')->name('home');
+});
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

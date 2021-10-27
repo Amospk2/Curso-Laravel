@@ -16,8 +16,16 @@ class CursoController extends Controller
      */
     public function index()
     {
-        $teste = Curso::all();
-        return view('welcome', ['teste'=>$teste]);
+        $search = request('search');
+        if($search)
+        {
+            $cursos = Curso::where([['title', 'like', '%'.$search.'%']])->get();
+        }
+        else
+        {
+            $cursos = Curso::all();
+        }
+        return view('welcome', ['cursos'=>$cursos, 'search' => $search]);
     }
 
     /**
@@ -41,10 +49,27 @@ class CursoController extends Controller
         try{
             $Evento = New Curso();
             $Evento->title = $request->Title;
+            $Evento->date = $request->date;
             $Evento->description = $request->description;
             $Evento->city = $request->city;
             $Evento->private = $request->private;
+            $Evento->items = $request->items;
 
+            //Upload Image
+
+            if($request->hasFile('image') && $request->file('image')->isValid())
+            {
+                $RI = $request->image;
+
+                $extension = $RI->extension();
+
+                $IName = md5($RI->getClientOriginalName() . strtotime("now") . "." . $extension);
+                
+                $request->image->move(public_path('img/events'), $IName);
+            
+                $Evento->image = $IName;
+            
+            }
             $Evento->save();
 
             Session::flash('msg', 'Evento criado com sucesso!');
@@ -65,7 +90,8 @@ class CursoController extends Controller
      */
     public function show($id)
     {
-        //
+        $event = Curso::findOrFail($id);
+        return view('show', ['event'=>$event]);
     }
 
     /**
