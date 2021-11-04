@@ -1,6 +1,6 @@
 @extends('layouts.App')
 
-@section('Titulo', 'Index')
+@section('htmlheader_title', 'create')
 
 @section('conteudo')
 

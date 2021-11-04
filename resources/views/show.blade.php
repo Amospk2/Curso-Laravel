@@ -16,11 +16,13 @@
                 <a href="#" class = "btn btn-primary" id="event-submit">Confirmar Presença</a>
                 <h3>O evento conta com:</h3>
 
-                    @foreach ($event->items as $item)
-                    <a href="#" class = "btn btn-primary">               
-                    <span>{{$item}}</span></a>
 
-                    @endforeach
+                @foreach ($event->items as $item)
+                <a href="#" class = "btn btn-primary">               
+                <span>{{$item}}</span></a>
+
+                @endforeach
+
 
             </div>
             <div class="col-md-12" id="description-container">

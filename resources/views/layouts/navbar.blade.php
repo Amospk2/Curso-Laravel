@@ -5,22 +5,32 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="nav navbar-nav ml-auto">
-          <li class="nav-item active">
+          <li class="nav-item">
               <a class="nav-link" href="/">Home</a>
           </li>
+          @guest
+          <li class="nav-item">
+              <a class="nav-link" href="/login">Logar</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="/register">Cadastrar</a>
+          </li>
+          @endguest
+          @auth
           <li class="nav-item">
               <a class="nav-link" href="/create">Criar Eventos</a>
           </li>
           <li class="nav-item">
-            <a href="{{ url('/logout') }}"  class="nav-link" onclick="event.preventDefault();
-              document.getElementById('logout-form').submit();">
-                  <i class="nav-icon fa fa-power-off"></i>
-            </a>
-            <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-              {{ csrf_field() }}
-              <input type="submit" value="logout" style="display: none;">
+            <form action="{{url('/logout')}}" method="POST">
+              @csrf
+              <a href="/logout" class="nav-link" onclick="event.preventDefault();
+              this.closest('form').submit();">
+                  Sair
+              </a>
             </form>
           </li>
+          @endauth
+
         </ul>
       </div>
     </div>

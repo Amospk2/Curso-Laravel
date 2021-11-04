@@ -1,11 +1,17 @@
-@extends('layouts.app')
+@extends('layouts.Auth')
+
+@section('htmlheader_title', 'Register')
+@section('contentheader_title', 'Register')
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+        <div class="card card-outline card-primary">
+            
+            <div class="card-header text-center">
+                <a href="/" class="h1"><b>Curso</b>Amós</a>
+            </div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
@@ -72,6 +78,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </div>
 @endsection

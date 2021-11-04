@@ -15,13 +15,11 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+Route::get('/', "CursoController@index");
+Route::get('/events/{id}', "CursoController@show");
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/', "CursoController@index");
     Route::get('/create', "CursoController@create");
     Route::post('/create/event', 'CursoController@store');
-    Route::get('/events/{id}', "CursoController@show");
-    Route::get('/home', 'HomeController@index')->name('home');
 });
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+

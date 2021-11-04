@@ -1,23 +1,51 @@
-@extends('layouts.app')
+@extends('layouts.App')
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+@section('title', 'Index')
 
+@section('conteudo')
+
+@if (Session::has('msg'))
+<div class="alert {{Session::get('class')}} alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">*</button>
+    <h5>Atenção</h5>
+    {{Session::get('msg')}}
+</div>  
+@endif
+<div id="search-container" class="col-12-md-12">
+    <h1>Buscar</h1>
+    <form action="/" method="GET">
+        <input type="text" id="search" name="search" class ="form-control" placeholder="Procurar">
+
+    </form>
+</div>
+
+<div id="events-container" class="col-md-12">
+    @if($search)
+    <h2>Buscando por:{{$search}}</h2>
+    <a href="/">Ver todos</a>
+    @else
+        <h2>Proximos Eventos</h2>
+        <p class="subtitle">Veja os eventos dos proximos dias</p>
+    @endif
+    <div id="cards-container" class="row">
+        @foreach ($cursos as $item)
+            <div class="card col-md-3">
+                <img src="/img/events/{{$item->image}}" alt="{{$item->title}}">
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
+                    <p class="card-date">{{date('d/m/y', strtotime($item->date))}}</p>
+                    <h5 class="card-title">{{$item->title}}</h5>
+                    <p class="card-participants"> x participantes</p>
+                    <a href="/events/{{$item->id}}" class="btn btn-primary"> Sabe mais</a>
                 </div>
             </div>
-        </div>
+        @endforeach
+        @if($search && count($cursos) == 0)
+            <p>Nenhum evento com nome "{{$search}}" encontrado! <a href="/">Ver todos</a></p>
+        @elseif(count($cursos) == 0)
+            <p>Nenhum evento disponivel.</p>
+        @endif
     </div>
 </div>
+
+
 @endsection
